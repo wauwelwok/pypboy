@@ -7,7 +7,6 @@ from enum import Enum
 if settings.GPIO_AVAILABLE:
     import RPi.GPIO as GPIO
 
-
 class GameState(Enum):
     PASSCODE = -5
     BOOT = -4
@@ -16,7 +15,6 @@ class GameState(Enum):
     DATA = -1
     INV = 0
     STATS = 1
-
 
 class BaseModule(game.EntityGroup):
     submodules = []
@@ -142,4 +140,4 @@ class SubModule(game.EntityGroup):
         if self.paused == True:
             self.paused = False
             if settings.SOUND_ENABLED:
-                self.submodule_change_sfx.play()
+                self.submodule_change_sfx.play()  

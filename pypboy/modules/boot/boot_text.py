@@ -15,7 +15,7 @@ def word_wrap(surf, text, font):
         bounds = font.get_rect(word)
         if x + bounds.width + bounds.x >= width:
             x, y = 0, y + line_spacing
-        font.render_to(surf, (x, y), None, settings.bright,None,1)
+        font.render_to(surf, (x, y), None, settings.bright_color,None,1)
         x += bounds.width + space.width
     return x, y
 
@@ -27,7 +27,7 @@ class Module(pypboy.SubModule):
     def __init__(self, *args, **kwargs):
         super(Module, self).__init__(*args, **kwargs)
         self.boot = Boot()
-        self.boot.rect[0] = 0
+        self.boot.rect[0] = 40
         self.boot.rect[1] = 51
         self.add(self.boot)
         if settings.SOUND_ENABLED:
@@ -52,8 +52,7 @@ class Boot(game.Entity):
 
     def __init__(self):
         super(Boot, self).__init__()
-        self.image = pygame.surface.Surface((settings.WIDTH, 1880))
-        self.rect[1] = 0
+        self.image = pygame.surface.Surface((720, 1880))
         self.top = 0
 
         boot_text = ("* 1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4 "
@@ -80,92 +79,93 @@ class Boot(game.Entity):
             "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
             "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
             "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
-            "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
-            "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
-            "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
-            "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
-            "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
-            "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
-            "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
-            "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
-            "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
-            "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
-            "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
-            "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
-            "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
-            "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
-            "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
-            "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
-            "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
-            "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
-            "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
-            "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
-            "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
-            "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
-            "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
-            "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
-            "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
-            "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
-            "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
-            "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
-            "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
-            "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
-            "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
-            "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
-            "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
-            "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
-            "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
-            "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
-            "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
-            "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
-            "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
-            "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
-            "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
-            "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
-            "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
-            "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
-            "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
-            "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
-            "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
-            "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
-            "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
-            "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
-            "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
-            "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
-            "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
-            "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
-            "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
-            "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
-            "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
-            "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
-            "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
-            "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
-            "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
-            "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
-            "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
-            "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
-            "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
-            "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
-            "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
+            # "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
+            # "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
+            # "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
+            # "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
+            # "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
+            # "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
+            # "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
+            # "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
+            # "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
+            # "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
+            # "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
+            # "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
+            # "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
+            # "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
+            # "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
+            # "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
+            # "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
+            # "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
+            # "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
+            # "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
+            # "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
+            # "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
+            # "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
+            # "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
+            # "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
+            # "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
+            # "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
+            # "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
+            # "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
+            # "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
+            # "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
+            # "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
+            # "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
+            # "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
+            # "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
+            # "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
+            # "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
+            # "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
+            # "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
+            # "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
+            # "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
+            # "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
+            # "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
+            # "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
+            # "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
+            # "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
+            # "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
+            # "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
+            # "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
+            # "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
+            # "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
+            # "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000  "
+            # "1 0 0x0000A4 0x00000000000000000 start memory discovery 0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000014 0x00000000000000000 CPUO starting cell  "
+            # "relocation0 0x0000A4 0x00000000000000000 1 0 0x000009  "
+            # "0x00000000000000000 CPUO launch EFI0 0x0000A4 0x00000000000000000 1 0  "
+            # "0x000009 0x000000000000E003D CPUO starting EFI0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x0000A4 0x00000000000000000 start memory  "
+            # "discovery0 0x0000A4 0x00000000000000000 1 0 0x0000A4 0x00000000000000000  "
+            # "start memory discovery 0 0x0000A4 0x00000000000000000 1 0 0x000014  "
+            # "0x00000000000000000 CPUO starting cell relocation0 0x0000A4  "
+            # "0x00000000000000000 1 0 0x000009 0x00000000000000000 CPUO launch EFI0  "
+            # "0x0000A4 0x00000000000000000 1 0 0x000009 0x000000000000E003D CPUO  "
             "starting EFI0 0x0000A4 0x00000000000000000 1 0 0x0000A4  "
             "0x00000000000000000 start memory discovery0 0x0000A4 0x00000000000000000 END"
         )
         
         self.prev_time = 0
-        self.animation_time = 0.007
+        self.animation_time = 0.01
+        # self.animation_time = 0.0
    
-        word_wrap(self.image, boot_text, settings.FreeTechMono[17])
+        word_wrap(self.image, boot_text, settings.TechMono[17])
 
         
     def render(self, *args, **kwargs):
@@ -183,7 +183,9 @@ class Boot(game.Entity):
                 self.top -= int(20*int(round(1/self.delta_time))/150)
             self.rect[1] = round(self.top)
 
-            if self.top <= -1880:
+            # Made smaller because boot text is waaaaay toooo long; if you want to use full boot text, use -1880 
+            if self.top <= -700: 
+            # if self.top <= -1880:
                 self.top = 0
                 pygame.event.post(pygame.event.Event(pygame.KEYDOWN,key=pygame.K_2))
         super(Boot, self).render(self, *args, **kwargs)

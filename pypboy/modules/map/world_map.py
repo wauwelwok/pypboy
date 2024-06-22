@@ -6,18 +6,8 @@ import game
 import threading
 import io
 import numpy as np
-import cairosvg
 
-# def load_svg(filename, width, height):
-#     drawing = cairosvg.svg2png(url = filename)
-#     byte_io = io.BytesIO(drawing)
-#     image = pygame.image.load(byte_io).convert_alpha()
-#     size = image.get_size()
-#     scale = min(width / size[0], height / size[1])
-#     if size[1] != height:
-#         image = pygame.transform.smoothscale(image, (round(size[0] * scale), round(size[1] * scale)))
-#     image.fill((0,230,0), None, pygame.BLEND_RGBA_MULT)
-#     return image
+import config
 
 class Module(pypboy.SubModule):
     label = "WORLD MAP"
@@ -50,10 +40,7 @@ class Module(pypboy.SubModule):
         self.topmenu.label = "MAP"
         self.topmenu.title = settings.MODULE_TEXT
 
-        settings.FOOTER_TIME[2] = "Map Data © Google"
-        self.footer = pypboy.ui.Footer(settings.FOOTER_TIME)
-        self.footer.rect[0] = settings.footer_x
-        self.footer.rect[1] = settings.footer_y
+        self.footer = pypboy.ui.Footer(["10.23.2287", "EVENING", "WORLD MAP"])
         self.add(self.footer)
 
     def handle_action(self, action, value=0):
@@ -92,8 +79,8 @@ class Map(game.Entity):
         self._size = width
         self._map_surface = pygame.Surface((width, height))
         self._render_rect = render_rect
-        text = settings.RobotoB[14].render(loading_type, True, settings.bright, (0, 0, 0))
-        self.image.blit(text, (10, 10))
+        text = settings.FreeRobotoB[14].render(loading_type, settings.bright_color, (0, 0, 0))
+        self.image.blit(text[0], (10, 10))
 
     def fetch_map(self, position, zoom, width, height, map_type):
         self._fetching = threading.Thread(target=self._internal_fetch_map, args=(position, zoom, width, height, map_type))
@@ -112,10 +99,10 @@ class Map(game.Entity):
                #+ "&markers=color:blue%7Clabel:S%7C40.702147,-74.015794" +
                #+ "&markers=color:green%7Clabel:G%7C40.711614,-74.012318" +
                #+  "&markers=color:red%7Clabel:C%7C40.718217,-73.998284" +
-               + "&key=AIzaSyBGLrr7j1P_pMknv1vRbKD4X7xMScWxnzM"
+               + "&key=" + config.googlemaps_token
                # + "&map_id=f1a13570cd60f576"
                )
-                # Note the API string here is restricted you will need your own API string
+              
 
         print("Loading map image from:" + url)
 
@@ -133,13 +120,13 @@ class Map(game.Entity):
             new_arr = np.repeat(mean_arr3d[:, :, :], 3, axis=2)
             map_surf = pygame.surfarray.make_surface(arr)
 
-            map_surf.fill(settings.bright, None, pygame.BLEND_RGBA_MULT)
+            map_surf.fill(settings.bright_color, None, pygame.BLEND_RGBA_MULT)
 
             self._map_surface.blit(map_surf, (0, 0))
 
             # svg_surface = load_svg("./images/map_icons/Player_Marker.svg", 40, 40)
             svg_surface = pygame.image.load("./images/map_icons/Player_Marker.svg").convert_alpha()
-            svg_surface.fill(settings.bright, None, pygame.BLEND_RGBA_MULT)
+            svg_surface.fill(settings.bright_color, None, pygame.BLEND_RGBA_MULT)
             self._map_surface.blit(svg_surface, (settings.WIDTH / 2 - 20, self._render_rect.centery - 20))
 
         else:

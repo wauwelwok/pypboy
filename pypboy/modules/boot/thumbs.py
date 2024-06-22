@@ -14,8 +14,8 @@ class Module(pypboy.SubModule):
     def __init__(self, *args, **kwargs):
         super(Module, self).__init__(*args, **kwargs)
         self.thumbs = Thumbs()
-        self.thumbs.rect[0] = 260
-        self.thumbs.rect[1] = 210
+        self.thumbs.rect[0] = 300
+        self.thumbs.rect[1] = 120
         self.add(self.thumbs)
 
         if settings.SOUND_ENABLED:

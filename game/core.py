@@ -1,6 +1,7 @@
 import statistics
 from collections import deque
 
+
 import pygame
 import time
 
@@ -30,7 +31,7 @@ class Engine(object):
         self.groups = []
         self.root_persitant = EntityGroup()
         self.background = pygame.surface.Surface(self.screen.get_size())
-        self.background.fill(settings.black)
+        self.background.fill(settings.black_color)
 
         self.rescale = False
         self.last_render_time = 0
@@ -41,8 +42,13 @@ class Engine(object):
         self.prev_fps_time = 0
         self.fps_average = deque()
 
-    def render(self):
+        #Run boot file
+    
 
+        print("boot")
+
+    def render(self):
+        
         self.current_time= time.time()
         self.delta_time = self.current_time - self.prev_time
 
@@ -52,6 +58,8 @@ class Engine(object):
             self.root_persitant.clear(self.screen, self.background) #Remove background from render queue?
             self.root_persitant.render()
             self.root_persitant.draw(self.screen)
+
+
             for group in self.groups:
                 group.render()
                 group.draw(self.screen)
@@ -64,16 +72,16 @@ class Engine(object):
             self.prev_fps_time = current_time
 
             #  FPS debugging
-            if fps_delta_time:
-                fps = int(1 / fps_delta_time)
+            # if fps_delta_time:
+            #     fps = int(1 / fps_delta_time)
 
-                if len(self.fps_average) > 6:
-                    self.fps_average.popleft()
-                    # self.fps_average.pop()
-                self.fps_average.append(fps)
-                fps = int(statistics.mean(self.fps_average))
-                # self.screen.putchars(str(fps) + " " + str(self.fps_average), 0, 1)
-                settings.FreeRobotoB[33].render_to(self.screen, (0, 0), str(fps), settings.bright, settings.black)
+            #     if len(self.fps_average) > 6:
+            #         self.fps_average.popleft()
+            #         # self.fps_average.pop()
+            #     self.fps_average.append(fps)
+            #     fps = int(statistics.mean(self.fps_average))
+            #     # self.screen.putchars(str(fps) + " " + str(self.fps_average), 0, 1)
+            #     settings.FreeRobotoB[33].render_to(self.screen, (0, 0), str(fps), settings.bright_color, settings.black_color)
 
             # Wait until frame rate hits
             if fps_delta_time < settings.fps_rate:
@@ -90,6 +98,7 @@ class Engine(object):
     def remove(self, group):
         if group in self.groups:
             self.groups.remove(group)
+    
 
 
 class EntityGroup(pygame.sprite.LayeredDirty):

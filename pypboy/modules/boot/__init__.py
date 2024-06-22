@@ -19,5 +19,6 @@ class Module(BaseModule):
         settings.hide_submenu = True
         settings.hide_main_menu = True
         settings.hide_footer = True
+        settings.hide_upper_footer = True
         self.active.handle_action("resume")
 
